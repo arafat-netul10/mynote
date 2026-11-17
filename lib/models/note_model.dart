@@ -1,3 +1,6 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class NoteModel {
   final String id;
   final String title;
@@ -5,7 +8,7 @@ class NoteModel {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  NoteModel({
+  const NoteModel({
     required this.id,
     required this.title,
     required this.description,
@@ -13,25 +16,39 @@ class NoteModel {
     required this.updatedAt,
   });
 
-
-  factory NoteModel.fromMap(Map<String, dynamic> map){
+  factory NoteModel.fromMap(Map<String, dynamic> map) {
     return NoteModel(
-        id: map['id'] as String? ?? "",
-        title: map['title'] as String? ?? "",
-        description: map["description"] as String? ?? "",
-        createdAt: DateTime.parse(map['createdAt'] as String),
-        updatedAt: DateTime.parse(map['updatedAt'] as String)
+      id: map['id'] as String? ?? '',
+      title: map['title'] as String? ?? '',
+      description: map['description'] as String? ?? '',
+      createdAt: _parseDate(map['createdAt']),
+      updatedAt: _parseDate(map['updatedAt']),
     );
   }
 
-  Map<String, dynamic> toMap(){
-    return{
-      'id' : id,
+  static DateTime _parseDate(dynamic value) {
+    if (value is Timestamp) {
+      return value.toDate();
+    }
+
+    if (value is DateTime) {
+      return value;
+    }
+
+    if (value is String) {
+      return DateTime.parse(value);
+    }
+
+    throw FormatException('Invalid date value: $value');
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
       'title': title,
       'description': description,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt' : updatedAt.toIso8601String(),
-
+      'createdAt': Timestamp.fromDate(createdAt),
+      'updatedAt': Timestamp.fromDate(updatedAt),
     };
   }
 

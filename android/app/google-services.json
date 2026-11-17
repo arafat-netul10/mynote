@@ -12,7 +12,20 @@
           "package_name": "com.arafatnetulwork.mynote"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "752823795173-0so75ojtqf0d4bcqotpkmr7g0u6pmqd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arafatnetulwork.mynote",
+            "certificate_hash": "26a52c203551dd40d44b37c108b55200da84ae0a"
+          }
+        },
+        {
+          "client_id": "752823795173-ntsm4ncbobms49b60ciheet5fe7cob2s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBkD27ZncPNLLP4wKH4fGSc0d6pNf-KKqs"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752823795173-ntsm4ncbobms49b60ciheet5fe7cob2s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
