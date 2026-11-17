@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "752823795173",
+    "project_id": "mynoteapp-c1f35",
+    "storage_bucket": "mynoteapp-c1f35.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752823795173:android:d1e737167a73176c06030c",
+        "android_client_info": {
+          "package_name": "com.arafatnetulwork.mynote"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkD27ZncPNLLP4wKH4fGSc0d6pNf-KKqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
