@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:mynote/screens/auth_gate.dart';
+import 'package:mynote/services/auth/auth_gate.dart';
 
 import 'firebase_options.dart';
 

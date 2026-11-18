@@ -70,12 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyNote'),
+        title: const Text('My Note',style: TextStyle(color: Colors.white),),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey,
         actions: [
           IconButton(
             tooltip: 'Logout',
             onPressed: _logout,
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout, color: Colors.white,),
           ),
         ],
       ),

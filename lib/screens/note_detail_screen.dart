@@ -105,17 +105,19 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Note Details'),
+        title: const Text('Note Details', style: TextStyle(color: Colors.white),),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey,
         actions: [
           IconButton(
             tooltip: 'Edit',
             onPressed: _editNote,
-            icon: const Icon(Icons.edit_outlined),
+            icon: const Icon(Icons.edit_outlined, color: Colors.white,),
           ),
           IconButton(
             tooltip: 'Delete',
             onPressed: _deleteNote,
-            icon: const Icon(Icons.delete_outline),
+            icon: const Icon(Icons.delete_outline,color: Colors.white,),
           ),
         ],
       ),
@@ -131,12 +133,12 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
             const SizedBox(height: 12),
             Text(
               'Created: ${dateFormat.format(_note.createdAt)}',
-              style: Theme.of(context).textTheme.bodySmall,
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
             const SizedBox(height: 4),
             Text(
               'Updated: ${dateFormat.format(_note.updatedAt)}',
-              style: Theme.of(context).textTheme.bodySmall,
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
             const Divider(height: 32),
             Text(

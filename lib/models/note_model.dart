@@ -1,15 +1,17 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class NoteModel {
-  final String id;
+import 'base_model.dart';
+
+class NoteModel extends BaseModel{
+
   final String title;
   final String description;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   const NoteModel({
-    required this.id,
+    required super.id,
     required this.title,
     required this.description,
     required this.createdAt,
@@ -42,6 +44,7 @@ class NoteModel {
     throw FormatException('Invalid date value: $value');
   }
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,

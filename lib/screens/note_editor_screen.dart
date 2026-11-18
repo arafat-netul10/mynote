@@ -119,12 +119,14 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Edit Note' : 'New Note'),
+        title: Text(_isEditing ? 'Edit Note' : 'New Note', style: TextStyle(color: Colors.white),),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey,
         actions: [
           IconButton(
             tooltip: 'Save',
             onPressed: _isSaving ? null : _saveNote,
-            icon: const Icon(Icons.save),
+            icon: const Icon(Icons.save, color: Colors.white,),
           ),
         ],
       ),
@@ -169,6 +171,9 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
             ),
             const SizedBox(height: 24),
             FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.blueGrey
+              ),
               onPressed: _isSaving ? null : _saveNote,
               icon: _isSaving
                   ? const SizedBox(
