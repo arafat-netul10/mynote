@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mynote/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:mynote/screens/auth_gate.dart';
 
 import 'firebase_options.dart';
 
 import 'repositories/firebase_auth_repository.dart';
-import 'repositories/firebase_note_repository.dart';
+import 'repositories/firestore_note_repository.dart';
 
 import 'providers/auth_provider.dart';
 import 'providers/note_provider.dart';
@@ -39,7 +39,7 @@ class MyNoteApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => NoteProvider(
-            noteRepository: FirebaseNoteRepository(),
+            noteRepository: FirestoreNoteRepository(),
           ),
         ),
       ],
@@ -52,7 +52,7 @@ class MyNoteApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const SignInScreen()
+        home: const AuthGate()
       ),
     );
   }

@@ -12,6 +12,7 @@ class AuthProvider extends ChangeNotifier {
   AppUserModel? _user;
   bool _isLoading = false;
   String? _errorMessage;
+  bool _isAuthInitialized = false;
 
   StreamSubscription<AppUserModel?>? _authSubscription;
 
@@ -21,6 +22,7 @@ class AuthProvider extends ChangeNotifier {
     _authSubscription = _authRepository.authStateChanges.listen(
           (user) {
         _user = user;
+        _isAuthInitialized = true;
         notifyListeners();
       },
       onError: (error) {
@@ -34,6 +36,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isAuthenticated => _user != null;
+  bool get isAuthInitialized => _isAuthInitialized;
 
   Future<void> signIn({
     required String email,

@@ -49,13 +49,13 @@ class NoteProvider extends ChangeNotifier {
     required String title,
     required String description,
   }) async {
-    await _execute(
-      () => _noteRepository.createNote(
+    await _execute(() async {
+      await _noteRepository.createNote(
         userId: userId,
         title: title,
         description: description,
-      ),
-    );
+      );
+    });
   }
 
   Future<void> updateNote({

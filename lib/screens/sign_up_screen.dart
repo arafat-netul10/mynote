@@ -30,7 +30,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             password: _passwordController.text,
             displayName: _nameController.text.trim(),
           );
-    } catch (error) {
+      if (!mounted) return;
+      Navigator.of(context).pop();
+
+    }
+    catch (error) {
       if (!mounted) return;
 
       final message = error.toString().replaceAll('Exception: ', '');

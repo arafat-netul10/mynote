@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/note_model.dart';
 import 'note_repository.dart';
 
-class FirebaseNoteRepository implements NoteRepository {
+class FirestoreNoteRepository implements NoteRepository {
   final FirebaseFirestore _firestore;
 
-  FirebaseNoteRepository({
+  FirestoreNoteRepository({
     FirebaseFirestore? firestore,
   }) : _firestore = firestore ?? FirebaseFirestore.instance;
 
