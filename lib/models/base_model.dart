@@ -1,4 +1,3 @@
-
 abstract class BaseModel {
   final String id;
 
