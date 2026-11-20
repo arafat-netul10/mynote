@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:mynote/services/auth/auth_gate.dart';
 
 import 'firebase_options.dart';
+
+import 'services/auth/auth_gate.dart';
+import 'services/notification/notification_service.dart';
 
 import 'repositories/firebase_auth_repository.dart';
 import 'repositories/firestore_note_repository.dart';
@@ -19,6 +21,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // Initialize local notifications.
+  await NotificationService.instance.initialize();
+
   runApp(const MyNoteApp());
 }
 
@@ -32,8 +37,8 @@ class MyNoteApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(
             authRepository: FirebaseAuthRepository(
-              serverClientId: '752823795173-ntsm4ncbobms49b60ciheet5fe7cob2s.apps.googleusercontent.com',
-
+              serverClientId:
+              '752823795173-ntsm4ncbobms49b60ciheet5fe7cob2s.apps.googleusercontent.com',
             ),
           ),
         ),
@@ -52,7 +57,7 @@ class MyNoteApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const AuthGate()
+        home: const AuthGate(),
       ),
     );
   }

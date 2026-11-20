@@ -8,6 +8,7 @@ abstract class NoteRepository {
     required String userId,
     required String title,
     required String description,
+    required DateTime? reminderAt,
   });
 
   Future<void> updateNote({

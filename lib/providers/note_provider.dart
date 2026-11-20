@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -31,31 +32,46 @@ class NoteProvider extends ChangeNotifier {
         .watchNotes(userId)
         .listen(
           (notes) {
-            _notes = notes;
-            _isLoading = false;
-            _errorMessage = null;
-            notifyListeners();
-          },
-          onError: (error) {
-            _isLoading = false;
-            _errorMessage = error.toString();
-            notifyListeners();
-          },
-        );
+        _notes = notes;
+        _isLoading = false;
+        _errorMessage = null;
+        notifyListeners();
+      },
+      onError: (error) {
+        _isLoading = false;
+        _errorMessage = error.toString();
+        notifyListeners();
+      },
+    );
   }
 
-  Future<void> addNote({
+  // Create a note and return it with its generated Firestore ID.
+  Future<NoteModel> addNote({
     required String userId,
     required String title,
     required String description,
+    DateTime? reminderAt,
   }) async {
-    await _execute(() async {
-      await _noteRepository.createNote(
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final note = await _noteRepository.createNote(
         userId: userId,
         title: title,
         description: description,
+        reminderAt: reminderAt,
       );
-    });
+
+      return note;
+    } catch (error) {
+      _errorMessage = error.toString();
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> updateNote({
@@ -63,7 +79,10 @@ class NoteProvider extends ChangeNotifier {
     required NoteModel note,
   }) async {
     await _execute(
-      () => _noteRepository.updateNote(userId: userId, note: note),
+          () => _noteRepository.updateNote(
+        userId: userId,
+        note: note,
+      ),
     );
   }
 
@@ -72,7 +91,10 @@ class NoteProvider extends ChangeNotifier {
     required String noteId,
   }) async {
     await _execute(
-      () => _noteRepository.deleteNote(userId: userId, noteId: noteId),
+          () => _noteRepository.deleteNote(
+        userId: userId,
+        noteId: noteId,
+      ),
     );
   }
 

@@ -40,9 +40,9 @@ class FirestoreNoteRepository implements NoteRepository {
     required String userId,
     required String title,
     required String description,
+    required DateTime? reminderAt,
   }) async {
     final now = DateTime.now();
-
     final docRef = _notesCollection(userId).doc();
 
     final note = NoteModel(
@@ -51,6 +51,7 @@ class FirestoreNoteRepository implements NoteRepository {
       description: description.trim(),
       createdAt: now,
       updatedAt: now,
+      reminderAt: reminderAt,
     );
 
     await docRef.set(note.toMap());
@@ -67,6 +68,9 @@ class FirestoreNoteRepository implements NoteRepository {
       'title': note.title.trim(),
       'description': note.description.trim(),
       'updatedAt': Timestamp.now(),
+      'reminderAt': note.reminderAt == null
+          ? null
+          : Timestamp.fromDate(note.reminderAt!),
     });
   }
 

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../models/note_model.dart';
 import '../providers/auth_provider.dart';
 import '../providers/note_provider.dart';
+import '../services/notification/notification_service.dart';
 import 'note_editor_screen.dart';
 
 class NoteDetailScreen extends StatefulWidget {
@@ -27,6 +28,17 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   void initState() {
     super.initState();
     _note = widget.note;
+  }
+
+  // Must match the ID generation used in NoteEditorScreen.
+  int _notificationIdFor(String noteId) {
+    var hash = 0x811c9dc5;
+
+    for (final unit in noteId.codeUnits) {
+      hash = ((hash ^ unit) * 0x01000193) & 0xffffffff;
+    }
+
+    return hash & 0x7fffffff;
   }
 
   Future<void> _editNote() async {
@@ -72,9 +84,15 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     if (userId == null) return;
 
     try {
+      // Delete the note from Firestore first.
       await context.read<NoteProvider>().deleteNote(
         userId: userId,
         noteId: _note.id,
+      );
+
+      // Cancel its scheduled local notification.
+      await NotificationService.instance.cancelReminder(
+        _notificationIdFor(_note.id),
       );
 
       if (!mounted) return;
@@ -105,19 +123,28 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Note Details', style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Note Details',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         backgroundColor: Colors.blueGrey,
         actions: [
           IconButton(
             tooltip: 'Edit',
             onPressed: _editNote,
-            icon: const Icon(Icons.edit_outlined, color: Colors.white,),
+            icon: const Icon(
+              Icons.edit_outlined,
+              color: Colors.white,
+            ),
           ),
           IconButton(
             tooltip: 'Delete',
             onPressed: _deleteNote,
-            icon: const Icon(Icons.delete_outline,color: Colors.white,),
+            icon: const Icon(
+              Icons.delete_outline,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
@@ -133,13 +160,45 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
             const SizedBox(height: 12),
             Text(
               'Created: ${dateFormat.format(_note.createdAt)}',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
               'Updated: ${dateFormat.format(_note.updatedAt)}',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
             ),
+
+            // Display reminder information.
+            if (_note.reminderAt != null) ...[
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.notifications_active,
+                    size: 18,
+                    color: Colors.blueGrey,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Reminder: ${dateFormat.format(_note.reminderAt!)}',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+
             const Divider(height: 32),
             Text(
               _note.description,
